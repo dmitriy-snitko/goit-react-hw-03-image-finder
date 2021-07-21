@@ -1,8 +1,11 @@
 import { Component } from 'react';
+import { createPortal } from 'react-dom';
 import { ModalWindow, Overlay, Button } from './Modal.styles';
 import { IoClose } from 'react-icons/io5';
 import { Spiner } from '../Spiner/Spiner';
 import PropTypes from 'prop-types';
+
+const ModalRoot = document.querySelector('#modal-root');
 
 export class Modal extends Component {
   static propTypes = {
@@ -50,7 +53,7 @@ export class Modal extends Component {
     const { onModalClose, selectedImage } = this.props;
     const isImageLoaded = this.state.isImageLoaded;
 
-    return (
+    return createPortal(
       <Overlay onClick={this.handleOverlayClick}>
         {!isImageLoaded && <Spiner />}
         <ModalWindow>
@@ -65,7 +68,8 @@ export class Modal extends Component {
             </Button>
           )}
         </ModalWindow>
-      </Overlay>
+      </Overlay>,
+      ModalRoot,
     );
   }
 }
